@@ -12,6 +12,10 @@ router.get("/", function (req, res) {
 router.get("/shop", isLoggedIn ,async function (req, res) {;
     let success =  req.flash("success");
     let products = await productModel.find();
+
+    if(req.query.sort === "price") products.sort((a,b) => a.price - b.price);
+    if(req.query.sort === "name") products.sort((a,b) => a.name.localeCompare(b.name));
+    
     res.render("shop", {products, success} );
 })
 
